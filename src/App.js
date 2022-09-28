@@ -1,24 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import "./App.css";
+import MovieBox from "./components/MovieBox";
+import axios from "axios";
+
+
+const API_URL ="https://api.themoviedb.org/3/movie/popular?api_key=60dbd333c18fb8341af66c2dcb04f4e9";
 
 function App() {
+  const[movies, setMovies] = useState([])
+  const[loading, setLoading] = useState(false)
+  //   Popular films API
+  useEffect(() =>{
+    const getMovies = async()=>{
+      setLoading(true)
+      const res = await axios.get("https://api.themoviedb.org/3/movie/popular?api_key=60dbd333c18fb8341af66c2dcb04f4e9")
+      // .then((res) => {
+        console.log(res.data.results)
+      setMovies(res.data.results)
+      setLoading(false)
+    // });
+    }
+    getMovies()
+  }, [])
+  
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <MovieBox movies={movies} loading={loading} />
+    </>
   );
 }
 

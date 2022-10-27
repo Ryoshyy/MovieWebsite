@@ -1,0 +1,16 @@
+.movielist{
+ display: flex;
+ flex-direction: column;
+ justify-content: center;
+ text-align: center;
+
+}
+.movie_poster {
+    width: 300px;
+    margin: 0 auto;
+  }
+  .movie_title {
+    padding: 10px 0px 10px 0px;
+    text-align: center;
+    font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  }

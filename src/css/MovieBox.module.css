@@ -1,0 +1,30 @@
+.movielist{
+    background-color: black;
+    height: 400px;
+    padding: 20px;
+    width: 100%;
+}
+.movielistbox{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+.movie_poster {
+  width: 200px;
+  margin: 0 auto;
+}
+.movie_title {
+    
+  padding: 10px 0px 10px 0px;
+  text-align: center;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+}
+.crousel_link{
+    text-decoration: none;
+    color: white;
+}
+.crousel_link:hover{
+    color: rgb(160, 128, 87);
+}
+

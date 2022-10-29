@@ -1,9 +1,10 @@
+
 .movielist{
  display: flex;
  flex-direction: column;
  justify-content: center;
  text-align: center;
-
+ width: 200px;
 }
 .movie_poster {
     width: 300px;
@@ -13,4 +14,9 @@
     padding: 10px 0px 10px 0px;
     text-align: center;
     font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  }
+  .pagination{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
   }

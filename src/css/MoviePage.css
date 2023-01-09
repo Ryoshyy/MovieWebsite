@@ -1,0 +1,39 @@
+section{
+    margin: 0 auto;
+    max-width: 1400px;
+}
+.Movie{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.Movie__info{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+}
+.Movie__info__rating{
+  
+}
+.Movie__info__title{
+    width: 100%;
+}
+.Movie__info__ganres{
+    
+    
+}
+.Movie-reviews__list{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.Movie__reviews__title{
+
+}
+.Movie-reviews__list__author{
+
+}
+.Movie-reviews__list__content{
+
+}

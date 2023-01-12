@@ -34,14 +34,14 @@ function MoviePage() {
     if (checked !== true) {
       console.log(`${id}`);
       const MovieId = id;
-      localStorage.setItem(`movieId`, MovieId);
+      localStorage.setItem(`movieId`,MovieId);
     } else {
       console.log("2");
       localStorage.removeItem(`movieId`);
     }
   };
 
-  console.log(movieReviews);
+  // console.log(movieReviews);
   return (
     <>
       <section>

@@ -7,27 +7,27 @@ export default function FavouriteMoviePage() {
   
   useEffect(() => {
     const movieIds = localStorage.getItem("movieId");
+    if(movieIds !== null){
+       JSON.parse(movieIds)
+    }
     setFavouriteMovies(movieIds);
+
   }, []);
+  console.log(favouritemovies)
 
-
-  useEffect(() => {
-    const API_MOVIE = `https://api.themoviedb.org/3/movie/${favouritemovies}?api_key=60dbd333c18fb8341af66c2dcb04f4e9`;
-    const getMovie = async () => {
-      const res = await axios.get(API_MOVIE);
-      setMovies(res.data);
-    };
-    getMovie();
-  },[favouritemovies]);
-console.log(movie)
+  // useEffect(() => {
+  //   const API_MOVIE = `https://api.themoviedb.org/3/movie/${favouritemovies}?api_key=60dbd333c18fb8341af66c2dcb04f4e9`;
+  //   const getMovie = async () => {
+  //     const res = await axios.get(API_MOVIE);
+  //     setMovies(res.data);
+  //   };
+  //   getMovie();
+  // },[favouritemovies]);
+// console.log(movie)
   // const movieId = localStorage.getItem(`movieId`);
   return (
     <>
-       {/* <div>{movie.map((movie) => (
-        
-              <div>{movie}</div>
-          ))}</div> */}
-      <div>{movie.title}</div> 
+      {/* <div>{movie.title}</div>  */}
     </>
   );
 }

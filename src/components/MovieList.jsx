@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
+import { Link } from "react-router-dom";
+import MovieCard from "./MovieCard";
 import styles from "../css/MovieList.module.css";
-import "bootstrap/dist/css/bootstrap.min.css";
-
 
 const MovieList = ({ movies, loading }) => {
-  const API_IMG = "https://image.tmdb.org/t/p/w500";
   if (loading) {
     return <h2>Loading...</h2>;
   }
@@ -13,20 +12,16 @@ const MovieList = ({ movies, loading }) => {
     <>
       <div className="container">
         <div className="row">
-          {movies.map((movie, i) => (
-            <div
+          {movies.map((movie) => (
+            <Link
               key={movie.id}
+              to={`/movie/${movie.id}`}
               className={`col-6 col-sm-3 ${styles.movielist}`}
             >
-              <img
-                className={styles.movie_poster}
-                src={API_IMG + movie.poster_path}
-              ></img>
-              <div className={styles.movie_title}>{movie.title}</div>
-            </div>
+              <MovieCard movie={movie}></MovieCard>
+            </Link>
           ))}
         </div>
-        
       </div>
     </>
   );

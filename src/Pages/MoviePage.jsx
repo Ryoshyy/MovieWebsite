@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import styles from "../css/MoviePage.css";
+import "../css/MoviePage.css";
 
 function MoviePage() {
   const { id } = useParams();
   const [movie, setMovies] = useState([]);
   const [checked, setChecked] = useState(false);
   const [movieReviews, setMovieReviews] = useState([]);
+  const [favourite, setFavourite] = useState([]);
+
+
   const API_IMG = "https://image.tmdb.org/t/p/w500";
 
   useEffect(() => {
@@ -29,19 +32,18 @@ function MoviePage() {
     getMovieReviews();
   }, [id]);
 
-  const handleChange = () => {
+  const AddFilmIDToLocalStorage = () => {
     setChecked(!checked);
     if (checked !== true) {
-      console.log(`${id}`);
-      const MovieId = id;
-      localStorage.setItem(`movieId`,MovieId);
+      // console.log(`${id}`);
+      let IDs = {id}
+      let newfavourite = localStorage.setItem(`movieId`, JSON.stringify(IDs));
+      setFavourite(newfavourite)
     } else {
-      console.log("2");
       localStorage.removeItem(`movieId`);
     }
   };
 
-  // console.log(movieReviews);
   return (
     <>
       <section>
@@ -56,7 +58,9 @@ function MoviePage() {
             <div className="Movie__info__rating">
               <h5 className="Movie__info__voteaverage__title">Rating:</h5>
               {movie.vote_average}
-              <div className="Movie__info__votecount">({movie.vote_count})</div>
+              <div className="Movie__info__votecount">
+                Votes {movie.vote_count}
+              </div>
             </div>
             <div className="Movie__info__runtime">
               <h5 className="Movie__info__voteaverage__title">Runrime:</h5>
@@ -69,19 +73,12 @@ function MoviePage() {
             <div className="Movie__info__ganres">
               <h5 className="Movie__info__ganres__title">Ganres:</h5>
               {movie.genres?.map((ganre) => (
-                <>
-                  <div key={ganre.id} className="Movie__info__ganres__list">
-                    {ganre.name}
-                  </div>
-                </>
+                <div key={ganre.id} className="Movie__info__ganres__list">
+                  {ganre.name}
+                </div>
               ))}
             </div>
-            <input
-              clas
-              type="checkbox"
-              value={checked}
-              onChange={handleChange}
-            />
+            <input type="checkbox" value={checked} onChange={AddFilmIDToLocalStorage} />
             <div className="Movie__info__overview">
               <h5 className="Movie__info__overview__title">Overwiew</h5>
               {movie.overview}
@@ -91,15 +88,11 @@ function MoviePage() {
 
         <div className="Movie__reviews">
           <h1 className="Movie__reviews__title">Reviews</h1>
-          {movieReviews?.map((review) => ( 
-            <>
-              <div key={review.id} className="Movie-reviews__list">
-                <h3 className="Movie-reviews__list__author">{review.author}</h3>
-                <h6 className="Movie-reviews__list__content">
-                  {review.content}
-                </h6>
-              </div>
-            </>
+          {movieReviews?.map((review) => (
+            <div key={review.id} className="Movie-reviews__list">
+              <h3 className="Movie-reviews__list__author">{review.author}</h3>
+              <h6 className="Movie-reviews__list__content">{review.content}</h6>
+            </div>
           ))}
         </div>
       </section>

@@ -1,15 +1,21 @@
-import axios from "axios";
+// import axios from "axios";
 import React, { useEffect, useState } from "react";
 
 export default function FavouriteMoviePage() {
   const [favouritemovies, setFavouriteMovies] = useState([]);
-  const [movie, setMovies] = useState([]);
+  // const [movie, setMovies] = useState([]);
   
   useEffect(() => {
+    let favourite
     const movieIds = localStorage.getItem("movieId");
-    if(movieIds !== null){
-       JSON.parse(movieIds)
+    if(movieIds === null){
+       favourite = []
+       console.log('1')
     }
+    else{
+      favourite = JSON.parse(movieIds)
+    }
+    
     setFavouriteMovies(movieIds);
 
   }, []);

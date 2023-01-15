@@ -2,11 +2,14 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import styles from "../css/MoviePage.css";
+import { getFavouritesFromLocalStorage } from "../helpers/localStorageHelpers";
 
 function MoviePage() {
   const { id } = useParams();
   const [movie, setMovies] = useState([]);
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(
+    getFavouritesFromLocalStorage().includes(id)
+  );
   const [movieReviews, setMovieReviews] = useState([]);
   const API_IMG = "https://image.tmdb.org/t/p/w500";
 
@@ -29,15 +32,16 @@ function MoviePage() {
     getMovieReviews();
   }, [id]);
 
-  const handleChange = () => {
+  const onFavMovieChanged = () => {
     setChecked(!checked);
-    if (checked !== true) {
-      console.log(`${id}`);
-      const MovieId = id;
-      localStorage.setItem(`movieId`,MovieId);
+    let favs = getFavouritesFromLocalStorage();
+
+    if (!checked) {
+      favs.push(id);
+      localStorage.setItem(`favourites`, JSON.stringify(favs));
     } else {
-      console.log("2");
-      localStorage.removeItem(`movieId`);
+      let newFavs = favs.filter((movieId) => movieId !== id);
+      localStorage.setItem(`favourites`, JSON.stringify(newFavs));
     }
   };
 
@@ -69,18 +73,16 @@ function MoviePage() {
             <div className="Movie__info__ganres">
               <h5 className="Movie__info__ganres__title">Ganres:</h5>
               {movie.genres?.map((ganre) => (
-                <>
-                  <div key={ganre.id} className="Movie__info__ganres__list">
-                    {ganre.name}
-                  </div>
-                </>
+                <div key={ganre.id} className="Movie__info__ganres__list">
+                  {ganre.name}
+                </div>
               ))}
             </div>
             <input
-              clas
               type="checkbox"
+              checked={checked}
               value={checked}
-              onChange={handleChange}
+              onChange={onFavMovieChanged}
             />
             <div className="Movie__info__overview">
               <h5 className="Movie__info__overview__title">Overwiew</h5>
@@ -91,15 +93,11 @@ function MoviePage() {
 
         <div className="Movie__reviews">
           <h1 className="Movie__reviews__title">Reviews</h1>
-          {movieReviews?.map((review) => ( 
-            <>
-              <div key={review.id} className="Movie-reviews__list">
-                <h3 className="Movie-reviews__list__author">{review.author}</h3>
-                <h6 className="Movie-reviews__list__content">
-                  {review.content}
-                </h6>
-              </div>
-            </>
+          {movieReviews?.map((review) => (
+            <div key={review.id} className="Movie-reviews__list">
+              <h3 className="Movie-reviews__list__author">{review.author}</h3>
+              <h6 className="Movie-reviews__list__content">{review.content}</h6>
+            </div>
           ))}
         </div>
       </section>

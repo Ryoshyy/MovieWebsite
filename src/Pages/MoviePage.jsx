@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import "../css/MoviePage.css";
+import styles from "../css/MoviePage.css";
+import { getFavouritesFromLocalStorage } from "../helpers/localStorageHelpers";
 
 function MoviePage() {
   const { id } = useParams();
   const [movie, setMovies] = useState([]);
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(
+    getFavouritesFromLocalStorage().includes(id)
+  );
   const [movieReviews, setMovieReviews] = useState([]);
-  const [favourite, setFavourite] = useState([]);
-
-
   const API_IMG = "https://image.tmdb.org/t/p/w500";
 
   useEffect(() => {
@@ -32,18 +32,20 @@ function MoviePage() {
     getMovieReviews();
   }, [id]);
 
-  const AddFilmIDToLocalStorage = () => {
+  const onFavMovieChanged = () => {
     setChecked(!checked);
-    if (checked !== true) {
-      // console.log(`${id}`);
-      let IDs = {id}
-      let newfavourite = localStorage.setItem(`movieId`, JSON.stringify(IDs));
-      setFavourite(newfavourite)
+    let favs = getFavouritesFromLocalStorage();
+
+    if (!checked) {
+      favs.push(id);
+      localStorage.setItem(`favourites`, JSON.stringify(favs));
     } else {
-      localStorage.removeItem(`movieId`);
+      let newFavs = favs.filter((movieId) => movieId !== id);
+      localStorage.setItem(`favourites`, JSON.stringify(newFavs));
     }
   };
 
+  // console.log(movieReviews);
   return (
     <>
       <section>
@@ -58,9 +60,7 @@ function MoviePage() {
             <div className="Movie__info__rating">
               <h5 className="Movie__info__voteaverage__title">Rating:</h5>
               {movie.vote_average}
-              <div className="Movie__info__votecount">
-                Votes {movie.vote_count}
-              </div>
+              <div className="Movie__info__votecount">({movie.vote_count})</div>
             </div>
             <div className="Movie__info__runtime">
               <h5 className="Movie__info__voteaverage__title">Runrime:</h5>
@@ -78,7 +78,12 @@ function MoviePage() {
                 </div>
               ))}
             </div>
-            <input type="checkbox" value={checked} onChange={AddFilmIDToLocalStorage} />
+            <input
+              type="checkbox"
+              checked={checked}
+              value={checked}
+              onChange={onFavMovieChanged}
+            />
             <div className="Movie__info__overview">
               <h5 className="Movie__info__overview__title">Overwiew</h5>
               {movie.overview}

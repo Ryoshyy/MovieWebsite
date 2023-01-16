@@ -1,39 +1,26 @@
-// import axios from "axios";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
+import FavouriteMovieCard from "../components/FavouriteMovieCard";
+import { getFavouritesFromLocalStorage } from "../helpers/localStorageHelpers";
 
 export default function FavouriteMoviePage() {
-  const [favouritemovies, setFavouriteMovies] = useState([]);
-  // const [movie, setMovies] = useState([]);
-  
+  const [favMovieIds, setFavMovieIds] = useState(getFavouritesFromLocalStorage());
+  const [movies, setMovies] = useState([]);
+
   useEffect(() => {
-    let favourite
-    const movieIds = localStorage.getItem("movieId");
-    if(movieIds === null){
-       favourite = []
-       console.log('1')
-    }
-    else{
-      favourite = JSON.parse(movieIds)
-    }
-    
-    setFavouriteMovies(movieIds);
+    let urls = favMovieIds.map(id => `https://api.themoviedb.org/3/movie/${id}?api_key=60dbd333c18fb8341af66c2dcb04f4e9`);
+    let promises = urls.map(url => axios.get(url));
 
-  }, []);
-  console.log(favouritemovies)
+    Promise.all(promises).then(results => {
+      console.log(results.map(res => res.data));
+      setMovies(results.map(res => res.data));
+    });
+  },  [favMovieIds]);
 
-  // useEffect(() => {
-  //   const API_MOVIE = `https://api.themoviedb.org/3/movie/${favouritemovies}?api_key=60dbd333c18fb8341af66c2dcb04f4e9`;
-  //   const getMovie = async () => {
-  //     const res = await axios.get(API_MOVIE);
-  //     setMovies(res.data);
-  //   };
-  //   getMovie();
-  // },[favouritemovies]);
-// console.log(movie)
-  // const movieId = localStorage.getItem(`movieId`);
   return (
     <>
       {/* <div>{movie.title}</div>  */}
+      <FavouriteMovieCard movies={movies}></FavouriteMovieCard>
     </>
   );
 }

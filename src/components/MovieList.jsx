@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import MovieCard from "./MovieCard";
 import styles from "../css/MovieList.module.css";
 
+
 const MovieList = ({ movies, loading }) => {
   if (loading) {
     return <h2>Loading...</h2>;
@@ -16,7 +17,7 @@ const MovieList = ({ movies, loading }) => {
             <Link
               key={movie.id}
               to={`/movie/${movie.id}`}
-              className={`col-6 col-sm-3 ${styles.movielist}`}
+              className={`col ${styles.movielist}`}
             >
               <MovieCard movie={movie}></MovieCard>
             </Link>

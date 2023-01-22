@@ -1,24 +1,36 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "../css/MovieList.module.css";
-import { ApiInfo } from "../api/ApiInfo";
+import styles from "../css/FavouriteMovieCard.module.scss";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function FavouriteMovieCard(movies) {
   // console.log(movies.movies)
   const API_IMG = "https://image.tmdb.org/t/p/w500";
 
   return (
-    <div className="container">
-      <div className="row">
+    <body>
+      <div className={`container ${styles.container}`}>
+      <div className="row row-cols-lg-3">
         {movies.movies.map((movie) => (
-          <Link  key={movie.id} to={`/movie/${movie.id}`}>
-            <img src={API_IMG + movie.poster_path} alt="" />
-            {movie.title}
-            {movie.id}
-          </Link>
+          <div className={styles.favouriteMovieCard}>
+            <Link
+              className={`col ${styles.favouriteMovieItem}`}
+              key={movie.id}
+              to={`/movie/${movie.id}`}
+            >
+              <img
+                className={styles.moviePoster}
+                src={API_IMG + movie.poster_path}
+                alt=""
+              />
+              <h6 className="movieTitle">{movie.title}</h6>
+            </Link>
+          </div>
         ))}
       </div>
     </div>
+    </body>
+    
   );
 }
 

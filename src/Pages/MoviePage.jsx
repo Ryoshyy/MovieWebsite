@@ -48,6 +48,7 @@ function MoviePage() {
   // console.log(movieReviews);
   return (
     <>
+    <div className="container">
       <section>
         <div className="Movie">
           <img
@@ -55,6 +56,7 @@ function MoviePage() {
             src={API_IMG + movie.poster_path}
             alt=""
           />
+          
           <div className="Movie__info">
             <h1 className="Movie__info__title">{movie.title}</h1>
             <div className="Movie__info__rating">
@@ -101,6 +103,7 @@ function MoviePage() {
           ))}
         </div>
       </section>
+      </div>
     </>
   );
 }
